@@ -6,9 +6,12 @@ import {
   Platform,
   StyleSheet,
   StatusBar,
-  FlatList
+  FlatList,
+  ImageBackground
 } from 'react-native'
 import { Feather } from '@expo/vector-icons'
+import ListItem from '../components/ListItem'
+
 
 // Declaring a variable data list for the flatlist component
 const DATA = [
@@ -44,44 +47,47 @@ const DATA = [
   }
 ]
 
-const Item = (props) => {
-  const { dt_txt, min, max, condition } = props
-  return (
-    <View>
-      <Feather name={'sun'} size={50} color={'white'} />
-      <Text>{dt_txt}</Text>
-      <Text>{min}</Text>
-      <Text>{max}</Text>
-    </View>
-  )
-}
-
 const UpcomingWeather = () => {
   const renderItem = ({ item }) => (
-    <Item
+    <ListItem
       condition={item.weather.main}
       dt_txt={item.dt_txt}
       min={item.main.temp_min}
       max={item.main.temp_max}
     />
   )
+
+  const {container ,image,text} = styles
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Upcoming Weather</Text>
+    <SafeAreaView style={container}>
+      <ImageBackground source = {require('../../assets/upcoming-background.jpg')} style = {image}>
+      <Text style = {text}>Upcoming Weather</Text>
       <FlatList
         data={DATA}
         renderItem={renderItem}
         keyExtractor={(item) => item.dt_txt}
       />
+      </ImageBackground>
     </SafeAreaView>
   )
 }
 
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    color : 'pink',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+    backgroundColor: 'royalBlue',
+    marginTop : StatusBar.currentHeight || 0 ,
+    // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+  },
+  text:{
+    fontSize:20,
+    padding:2
+    
+  },
+  image:{
+    flex:1
   }
 })
 
