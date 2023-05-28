@@ -12,26 +12,40 @@ import { Feather } from '@expo/vector-icons'
 import RowText from '../components/RowText'
 import { weatherType } from '../utilities/weatherType'
 
+const CurrentWeather = ({ weatherData }) => {
+  const {
+    wrapper,
+    container,
+    feels,
+    tempStyles,
+    highLowWarpper,
+    highLow,
+    bodyWrapper,
+    message
+  } = styles
 
+  const {
+    main: { temp, feels_like, temp_max, temp_min },
+    weather
+  } = weatherData
+  const weatherCondition = weather[0].main
 
-const CurrentWeather = () => {
-  const {wrapper,container,feels,temp,highLowWarpper,highLow,bodyWrapper,message} = styles
   return (
-    <SafeAreaView style={wrapper}>
+    <SafeAreaView style={[wrapper,{backgroundColor:weatherType[weatherCondition].backgroundColor}]}>
       <View style={container}>
-        <Feather name="sun" size={100} color="black" />
-        <Text style={temp}>6</Text>
-        <Text style={feels}>Feels like 5</Text>
+        <Feather name={weatherType[weatherCondition].icon} size={100} color="white" />
+        <Text style={tempStyles}>{temp} °C</Text>
+        <Text style={feels}>{`Feels Like : ${feels_like} °`}</Text>
         <RowText
-          messageOne={'High : 8'}
-          messageTwo={'Low : 6'}
+          messageOne={`High: ${temp_max}° `}
+          messageTwo={` Low: ${temp_min}° `}
           containerStyles={highLowWarpper}
           messageStyles={highLow}
         />
       </View>
       <RowText
-        messageOne={"It's Sunny"}
-        messageTwo={weatherType["Clear"].message}
+        messageOne={weather[0]?.description}
+        messageTwo={weatherType[weatherCondition]?.message}
         containerStyles={bodyWrapper}
         messageStyles={message}
       />
@@ -50,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
   },
-  temp: {
+  tempStyles: {
     color: 'black',
     fontSize: 48
   },
