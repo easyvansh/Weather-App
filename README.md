@@ -1,6 +1,10 @@
-# Weather-App
+<h1 align="center">
+  Weather-App
+</h1>
 
-This is a simple weather-app build using simple functionalities of react-native.
+<div align="center">
+  <p>A simple weather-app build using simple functionalities of React-Native.</p>
+</div>
 
 ## Running App
 - Must run all three of below:
